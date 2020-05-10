@@ -1,7 +1,5 @@
 package udit.programmer.co.lec9_code1
 
-import com.google.gson.annotations.SerializedName
-
 data class Users(
     val gistsUrl: String? = null,
     val reposUrl: String? = null,
@@ -31,7 +29,7 @@ data class Users(
     val eventsUrl: String? = null,
     val htmlUrl: String? = null,
     val following: Int? = null,
-    val name: String? = null,
+    var name: String? = null,
     val location: Any? = null,
     val nodeId: String? = null
 )
