@@ -23,22 +23,39 @@ class MainActivity() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val okHttpClient = OkHttpClient()
+        // okHttp Stuff
+//        val okHttpClient = OkHttpClient()
+//        val request = Request.Builder()
+//            .url("https://api.github.com/users/uditjain100").build()
+//        GlobalScope.launch(Dispatchers.Main) {
+//            val response = withContext(Dispatchers.IO) {
+//                okHttpClient.newCall(request).execute().body!!.string()
+//            }
+//            val obj = JSONObject(response)
+//            val image = obj.getString("avatar_url")
+//            val login = obj.getString("login")
+//            val name = obj.getString("name")
+//            Log.i("Networking", "$login   $name")
+//            name_view.text = name
+//            login_view.text = login
+//            Picasso.get().load(image).into(image_view)
+//        }
 
+        //GSON Stuff
+        val okHttpClient = OkHttpClient()
         val request = Request.Builder()
             .url("https://api.github.com/users/uditjain100").build()
+        val gson =
+            GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create()
         GlobalScope.launch(Dispatchers.Main) {
             val response = withContext(Dispatchers.IO) {
                 okHttpClient.newCall(request).execute().body!!.string()
             }
-            val obj = JSONObject(response)
-            val image = obj.getString("avatar_url")
-            val login = obj.getString("login")
-            val name = obj.getString("name")
-            Log.i("Networking", "$login   $name")
-            name_view.text = name
-            login_view.text = login
-            Picasso.get().load(image).into(image_view)
+            val user = gson.fromJson<Users>(response, Users::class.java)
+            name_view.text = user.name
+            login_view.text = user.login
+            Picasso.get().load(user.avatarUrl).into(image_view)
         }
 
     }
