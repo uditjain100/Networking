@@ -21,7 +21,7 @@ import kotlin.coroutines.CoroutineContext
 
 class MainActivity() : AppCompatActivity() {
 
-    val adapter = UserAdapter()
+    val user_adapter = UserAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -62,18 +62,18 @@ class MainActivity() : AppCompatActivity() {
 //        }
 
         //Retrofit Stuff
-        adapter.onItemClick = {
+        user_adapter.onItemClick = {
             startActivity(Intent(this, UserActivity::class.java).putExtra("ID", it))
         }
         userRV.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = this@MainActivity.adapter
+            adapter = this@MainActivity.user_adapter
         }
         GlobalScope.launch(Dispatchers.Main) {
             val response = withContext(Dispatchers.IO) { Retrofit_Client.api.getUser() }
             if (response.isSuccessful) {
                 response.body()?.let {
-                    adapter.swapData(it)
+                    user_adapter.swapData(it)
                 }
             }
         }

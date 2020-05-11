@@ -19,7 +19,7 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     override fun getItemCount(): Int = data.size
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        holder.itemView.name_view.text = data[position].name
+        holder.itemView.name_view.text = data[position].name.toString()
         holder.itemView.login_view.text = data[position].login
         Picasso.get().load(data[position].avatarUrl).into(holder.itemView.image_view)
         holder.itemView.setOnClickListener {
